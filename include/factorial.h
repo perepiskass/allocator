@@ -4,7 +4,6 @@ namespace my_factorial
 {
     template<int V>
     struct fact {
-        static_assert(V > 0);
         static const int value = V * fact<V-1>::value;
     };
 
