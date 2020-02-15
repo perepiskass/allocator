@@ -1,12 +1,24 @@
+#include "version_lib.h"
 #include "allocator.h"
 #include "list.h"
 #include <iostream>
 #include <map>
 #include "factorial.h"
+#include <string>
 
-int main(int, char *[]) 
+
+int main(int argc, char *argv[]) 
 {
-
+  const std::string ver = "-version";
+  if ( argc > 1 && argv[1] == ver )
+  {
+    std::cout << "version: " << version_major()<< '.'<< version_minor() << '.' << version_patch() << std::endl; 
+  }
+  else
+  {
+    std::cout << "Type: -version, if you want to known proramm version" << std::endl;    
+  }
+    
   try
   {
     constexpr int MaxElement = 10;
