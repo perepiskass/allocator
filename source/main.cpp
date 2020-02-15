@@ -1,0 +1,54 @@
+#include "allocator.h"
+#include "list.h"
+#include <iostream>
+#include <map>
+#include "factorial.h"
+
+int main(int, char *[]) 
+{
+
+  try
+  {
+    constexpr int MaxElement = 10;
+
+    // Cоздание и заполнение стандартного экземпляра map
+    auto m = std::map<int, int>{};
+    for (int i = 0; i < MaxElement; ++i) m[i] = my_factorial::factorial(i);
+
+    // Вывод на экрна значений
+    for(auto& i : m)    std::cout << i.first << ' ' << i.second << std::endl;
+    std::cout << std::endl;
+
+    // Создание и запонение экземпляра map с кастомным аллокатором
+    using map_cust_alloc = my_allocator<std::pair<const int, int>, MaxElement>;
+    auto castom_m = std::map<int, int, std::less<int>,map_cust_alloc>{};
+    for (int i = 0; i < MaxElement; ++i) castom_m[i] = my_factorial::factorial(i);
+    
+    // Вывод на экрна значений
+    for(auto& i : castom_m)     std::cout << i.first << ' ' << i.second << std::endl;
+    std::cout << std::endl;
+
+    // Создание и запонение экземпляра кастомного контейнера List со стандартным аллокатором
+    List<int> lst;
+    for (int i = 0; i < MaxElement; ++i)    lst.push_back(my_factorial::factorial(i));
+    
+    // Вывод на экрна значений
+    for(int i = 0; i < lst.GetSize(); ++i)     std::cout << i << ' ' << lst[i] << std::endl;
+    std::cout << std::endl;
+
+    // Создание и запонение экземпляра кастомного контейнера List с кастомным аллокатором
+    using list_cust_alloc = my_allocator<int, MaxElement>;
+    List<int,list_cust_alloc> my_list;
+    for (int i = 0; i < MaxElement; ++i)    my_list.push_back(my_factorial::factorial(i));
+    
+    // Вывод на экрна значений
+    for (int i=0;i<my_list.GetSize();i++)   std::cout << i << ' ' <<  my_list[i] << std::endl;
+  }
+  
+  catch(const std::exception& e)
+  {
+    std::cerr << e.what() << '\n';
+  }
+
+    return 0;
+}
