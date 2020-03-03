@@ -9,13 +9,13 @@ template<typename U>
 class Node
 {
     public:
-    Node *addNext;                              
+    Node *add_next;                              
     U data;
 
-    Node(U data, Node *addNext = nullptr)       
+    Node(U data, Node *add_next = nullptr)       
     {
         this->data = data;
-        this->addNext = addNext;
+        this->add_next = add_next;
     }
 };
 
@@ -30,32 +30,33 @@ public:
 
     List()
     {
-     size = 0;           
-     head = nullptr;     
+     this->size = 0;           
+     this->head = nullptr;     
     }
 
    ~List()
    {
        while(size) pop_back();
    }
+
 void push_back (T data)
 {
-   if (head == nullptr)  
+   if (this->head == nullptr)  
    {
-        head = alloc.allocate(1); 
-        alloc.construct(head, data);
+        this->head = alloc.allocate(1); 
+        alloc.construct(this->head, data);
    }
    else
    {
        Node<T> *current = this->head; 
-       while (current->addNext != nullptr)      
+       while (current->add_next != nullptr)      
        {
-           current = current->addNext;
+           current = current->add_next;
        }
-       current->addNext = alloc.allocate(1);
-       alloc.construct(current->addNext, data);
+       current->add_next = alloc.allocate(1);
+       alloc.construct(current->add_next, data);
    }
-   size++;
+   ++size;
 }
 
 private:
@@ -63,26 +64,21 @@ void pop_back()
 {
         Node<T> *current = this->head;           
         Node<T> *previous = this->head;
-        while (current->addNext != nullptr)
+        while (current->add_next != nullptr)
         {
            previous = current;
-           current = current->addNext;
+           current = current->add_next;
         }
         alloc.destroy(current);
         alloc.deallocate(current,1);
-        previous->addNext = nullptr;
+        previous->add_next = nullptr;
         size--;
 }
 
 public:
 T& operator[](const int index)
 {
-    if (size == 0)
-    {
-        std::cout << "List is empty" << std::endl;
-        exit (1);
-    }
-    else if (index < size && index >= 0)
+    if (index < size && index >= 0)
     {
         int count = 0;
         Node<T> *current = this->head;
@@ -92,11 +88,13 @@ T& operator[](const int index)
             {
                 return current->data;
             }
-            current = current->addNext;
+            current = current->add_next;
             count++;
         }
     }
-    throw std::bad_alloc();
+
+    throw std::out_of_range("Индекс за пределами диапазона контейнера");
+
 }
 
 int GetSize()

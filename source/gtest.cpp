@@ -45,17 +45,8 @@ TEST(allocator_test_case, allocate_bad_test)
 {
   constexpr int N = 3;
   my_allocator<int, N> allocator;
-  bool bad_allocation = false;
 
-  try
-  {
-    for(int i = 0; i < N+1;++i)    allocator.allocate(1);
-  }
-  catch(const std::bad_alloc& e)
-  {
-    bad_allocation = true;
-  }
-  EXPECT_TRUE(bad_allocation);
+  EXPECT_THROW ({for(int i = 0; i < N+1;++i)    allocator.allocate(1);},std::bad_alloc);
 }
 
 TEST(allocator_test_case, allocate_construct_test)
@@ -71,13 +62,13 @@ TEST(allocator_test_case, allocate_construct_test)
 TEST(list_test_case, list_push_back_test)
 {
   List<int> lst;
-  lst.push_back(9);
-  lst.push_back(8);
-  lst.push_back(7);
+  lst.push_back(1);
+  lst.push_back(2);
+  lst.push_back(3);
 
-  EXPECT_EQ(lst[0], 9);
-  EXPECT_EQ(lst[1], 8);
-  EXPECT_EQ(lst[2], 7);
+  EXPECT_EQ(lst[0],1);
+  EXPECT_EQ(lst[1],2);
+  EXPECT_EQ(lst[2],3);
 }
 
 TEST(list_test_case, out_of_range_test)
@@ -86,32 +77,14 @@ TEST(list_test_case, out_of_range_test)
   lst.push_back(9);
   lst.push_back(8);
   lst.push_back(7);
-  bool bad_allocation = false;
-  try
-  {
-    for(int i = 0; i < 4;++i)   lst[i];
-  }
-  catch(const std::bad_alloc& e)
-  {
-    bad_allocation = true;
-  }
-  EXPECT_TRUE(bad_allocation);
+  EXPECT_THROW ({for(int i = 0; i < 4;++i)   lst[i];},std::out_of_range);
 }
 
 TEST(list_test_case, index_minus_sign_test)
 {
   List<int> lst;
   lst.push_back(9);
-  bool bad_allocation = false;
-  try
-  {
-    lst[-1];
-  }
-  catch(const std::bad_alloc& e)
-  {
-    bad_allocation = true;
-  }
-  EXPECT_TRUE(bad_allocation);
+  EXPECT_THROW (lst[-1],std::out_of_range);
 }
 
 TEST(list_test_case, get_size_test)

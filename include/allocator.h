@@ -25,13 +25,13 @@ struct my_allocator
 
     my_allocator()
     {
-        head = std::malloc(N * sizeof(T));
-        if (!head)
-            throw std::bad_alloc();
+        
     }
 
     ~my_allocator()
-    {}
+    {
+        free(head);
+    }
 
     template<typename U> 
     my_allocator(const my_allocator<U>&) 
@@ -39,6 +39,12 @@ struct my_allocator
 
     pointer allocate(std::size_t n) 
     {
+        if (head == nullptr)
+        {
+            head = std::malloc(N * sizeof(T));
+            if (!head)
+            throw std::bad_alloc();
+        }
         if (count==0)
         {
             ++count;
@@ -61,10 +67,11 @@ struct my_allocator
     void deallocate(pointer p, std::size_t n=0) 
     {
         if(p && n>=0)--count;
-        if(count==0)
-        {
-            free(head);
-        }
+        // if(count==0)
+        // {
+        //     free(head);
+        //     head == nullptr;
+        // }
     }
 
     template<typename U, typename ...Args>

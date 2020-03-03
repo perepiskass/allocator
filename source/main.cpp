@@ -9,15 +9,15 @@
 
 int main(int argc, char *argv[]) 
 {
-  const std::string ver = "-version";
-  if ( argc > 1 && argv[1] == ver )
+  if ( argc > 1)
   {
-    std::cout << "version: " << version_major()<< '.'<< version_minor() << '.' << version_patch() << std::endl; 
+    const std::string ver = "-version";
+    if(argv[1] == ver)
+    std::cout << "version: " << version_major()<< '.'<< version_minor() << '.' << version_patch() << std::endl;
+    else
+    std::cout << "Type: -version, if you want to known programm version" << std::endl;    
   }
-  else
-  {
-    std::cout << "Type: -version, if you want to known proramm version" << std::endl;    
-  }
+
     
   try
   {
@@ -45,7 +45,7 @@ int main(int argc, char *argv[])
     for (int i = 0; i < MaxElement; ++i)    lst.push_back(my_factorial::factorial(i));
     
     // Вывод на экрна значений
-    for(int i = 0; i < lst.GetSize(); ++i)     std::cout << i << ' ' << lst[i] << std::endl;
+    for(int i = 0; i < lst.GetSize(); ++i)     std::cout << i << '-' << lst[i] << std::endl;
     std::cout << std::endl;
 
     // Создание и запонение экземпляра кастомного контейнера List с кастомным аллокатором
@@ -55,6 +55,15 @@ int main(int argc, char *argv[])
     
     // Вывод на экрна значений
     for (int i=0;i<my_list.GetSize();i++)   std::cout << i << ' ' <<  my_list[i] << std::endl;
+
+    // List<int> lst;
+    // lst.push_back(9);
+    // lst.push_back(8);
+    // lst.push_back(7);
+    // std::cout << 0 << '-' << lst[0] << std::endl;
+    // std::cout << 1 << '-' << lst[1] << std::endl;
+    // std::cout << 2 << '-' << lst[2] << std::endl;
+
   }
   
   catch(const std::exception& e)
