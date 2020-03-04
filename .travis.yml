@@ -16,6 +16,6 @@ script:
 - cmake --build . --target package
 deploy:
   provider: script
-  cleanup: true
+  skip_cleanup: true
   script:
   - curl -T allocator-1.1.$TRAVIS_BUILD_NUMBER-Linux.deb -uperepiskass:$BINTRAY_API_KEY "https://api.bintray.com/content/perepiskass/my_allocator/allocator/$TRAVIS_BUILD_NUMBER/allocator-1.1.$TRAVIS_BUILD_NUMBER-Linux.deb;deb_distribution=trusty;deb_component=main;deb_architecture=amd64;publish=1"
