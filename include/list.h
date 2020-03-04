@@ -9,13 +9,13 @@ template<typename U>
 class Node
 {
     public:
-    Node *add_next;                              
+    Node *next_node;                              
     U data;
 
-    Node(U data, Node *add_next = nullptr)       
+    Node(U data, Node *next_node = nullptr)       
     {
         this->data = data;
-        this->add_next = add_next;
+        this->next_node = next_node;
     }
 };
 
@@ -49,12 +49,12 @@ void push_back (T data)
    else
    {
        Node<T> *current = this->head; 
-       while (current->add_next != nullptr)      
+       while (current->next_node != nullptr)      
        {
-           current = current->add_next;
+           current = current->next_node;
        }
-       current->add_next = alloc.allocate(1);
-       alloc.construct(current->add_next, data);
+       current->next_node = alloc.allocate(1);
+       alloc.construct(current->next_node, data);
    }
    ++size;
 }
@@ -64,14 +64,14 @@ void pop_back()
 {
         Node<T> *current = this->head;           
         Node<T> *previous = this->head;
-        while (current->add_next != nullptr)
+        while (current->next_node != nullptr)
         {
            previous = current;
-           current = current->add_next;
+           current = current->next_node;
         }
         alloc.destroy(current);
         alloc.deallocate(current,1);
-        previous->add_next = nullptr;
+        previous->next_node = nullptr;
         size--;
 }
 
@@ -88,7 +88,7 @@ T& operator[](const int index)
             {
                 return current->data;
             }
-            current = current->add_next;
+            current = current->next_node;
             count++;
         }
     }

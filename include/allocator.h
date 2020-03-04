@@ -59,7 +59,6 @@ struct my_allocator
         }
         else 
         {
-            free(head);
             throw std::bad_alloc();
         }
     }
